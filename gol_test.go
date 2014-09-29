@@ -56,7 +56,7 @@ func TestNeighborCounts(t *testing.T) {
 
 func TestDebugStringEmpty(t *testing.T) {
 	field := Field{}
-	actual := field.DebugString()
+	actual := field.DebugString(0)
 	expected := "empty"
 	if expected != actual {
 		t.Error("String not as expected", expected, actual)
@@ -65,7 +65,7 @@ func TestDebugStringEmpty(t *testing.T) {
 
 func TestDebugString(t *testing.T) {
 	field := Field{Cell{0, 0}: false, Cell{1, 1}: false, Cell{-1, 1}: false}
-	actual := field.DebugString()
+	actual := field.DebugString(0)
 	expected := ".X.\nX.X\n"
 	if expected != actual {
 		t.Error("String not as expected", expected, actual)
@@ -85,7 +85,7 @@ func TestStepSimple(t *testing.T) {
 	field := MakeField("...\nXXX\n...")
 	expected := "X\nX\nX\n"
 	field.Step()
-	actual := field.DebugString()
+	actual := field.DebugString(0)
 	if expected != actual {
 		t.Error("Field advanced incorrectly", expected, actual)
 	}
@@ -95,7 +95,7 @@ func TestStepsGlider(t *testing.T) {
 	states := [...]string{".X.\n..X\nXXX\n", "X.X\n.XX\n.X.\n", "..X\nX.X\n.XX\n", "X..\n.XX\nXX.\n"}
 	field := MakeField(states[0])
 	for step, expected := range states {
-		actual := field.DebugString()
+		actual := field.DebugString(0)
 		if expected != actual {
 			t.Error("Field advanced incorrectly in step", step, expected, actual)
 		}

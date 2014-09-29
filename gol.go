@@ -74,9 +74,9 @@ func MakeField(description string) Field {
 	return field
 }
 
-// Returns a string representation of the infinite without padding around
-// cells that are alive field or "empty" if the field is empty.
-func (field *Field) DebugString() string {
+// Returns a string representation of the infinite with the provided padding
+// around cells that are alive field or "empty" if the field is empty.
+func (field *Field) DebugString(padding int) string {
 	if len(*field) == 0 {
 		return "empty"
 	}
@@ -101,8 +101,8 @@ func (field *Field) DebugString() string {
 		}
 	}
 
-	for y := miny; y < maxy+1; y++ {
-		for x := minx; x < maxx+1; x++ {
+	for y := miny - padding; y < maxy+1+padding; y++ {
+		for x := minx - padding; x < maxx+1+padding; x++ {
 			if _, ok := (*field)[Cell{x, y}]; ok {
 				buffer.WriteString("X")
 			} else {
