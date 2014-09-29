@@ -22,10 +22,11 @@ import (
 )
 
 func main() {
-	board := gol.MakeBoard(".X.\n..X\nXXX")
+	field := gol.MakeField(".X.\n..X\nXXX")
 	for i := 0; i < 10; i++ {
-		board.Advance()
-		fmt.Println(board.DebugString())
+		field.Step()
+		fmt.Println(field.DebugString())
 	}
 }
+
 ```

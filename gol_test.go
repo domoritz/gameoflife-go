@@ -31,8 +31,8 @@ func TestNeighbors(t *testing.T) {
 }
 
 func TestNeighborCounts(t *testing.T) {
-	board := Board{Cell{0, 0}: false, Cell{1, 1}: false}
-	actual := board.neighborCounts()
+	field := Field{Cell{0, 0}: false, Cell{1, 1}: false}
+	actual := field.neighborCounts()
 	expected := Counts{Cell{2, 1}: 1, Cell{1, 0}: 2,
 		Cell{1, 1}: 1, Cell{2, 0}: 1, Cell{-1, -1}: 1,
 		Cell{-1, 1}: 1, Cell{0, -1}: 1, Cell{0, 1}: 2,
@@ -55,8 +55,8 @@ func TestNeighborCounts(t *testing.T) {
 }
 
 func TestDebugStringEmpty(t *testing.T) {
-	board := Board{}
-	actual := board.DebugString()
+	field := Field{}
+	actual := field.DebugString()
 	expected := "empty"
 	if expected != actual {
 		t.Error("String not as expected", expected, actual)
@@ -64,8 +64,8 @@ func TestDebugStringEmpty(t *testing.T) {
 }
 
 func TestDebugString(t *testing.T) {
-	board := Board{Cell{0, 0}: false, Cell{1, 1}: false, Cell{-1, 1}: false}
-	actual := board.DebugString()
+	field := Field{Cell{0, 0}: false, Cell{1, 1}: false, Cell{-1, 1}: false}
+	actual := field.DebugString()
 	expected := ".X.\nX.X\n"
 	if expected != actual {
 		t.Error("String not as expected", expected, actual)
@@ -74,38 +74,38 @@ func TestDebugString(t *testing.T) {
 
 func TestFromString(t *testing.T) {
 	description := "X..\n.XX"
-	expected := Board{Cell{0, 0}: false, Cell{1, 1}: false, Cell{2, 1}: false}
-	actual := MakeBoard(description)
+	expected := Field{Cell{0, 0}: false, Cell{1, 1}: false, Cell{2, 1}: false}
+	actual := MakeField(description)
 	if reflect.DeepEqual(expected, actual) {
-		t.Error("Incorrect board created", expected, actual)
+		t.Error("Incorrect field created", expected, actual)
 	}
 }
 
-func TestAdvanceSimple(t *testing.T) {
-	board := MakeBoard("...\nXXX\n...")
+func TestStepSimple(t *testing.T) {
+	field := MakeField("...\nXXX\n...")
 	expected := "X\nX\nX\n"
-	board.Advance()
-	actual := board.DebugString()
+	field.Step()
+	actual := field.DebugString()
 	if expected != actual {
-		t.Error("Board advanced incorrectly", expected, actual)
+		t.Error("Field advanced incorrectly", expected, actual)
 	}
 }
 
-func TestAdvanceGlider(t *testing.T) {
+func TestStepsGlider(t *testing.T) {
 	states := [...]string{".X.\n..X\nXXX\n", "X.X\n.XX\n.X.\n", "..X\nX.X\n.XX\n", "X..\n.XX\nXX.\n"}
-	board := MakeBoard(states[0])
+	field := MakeField(states[0])
 	for step, expected := range states {
-		actual := board.DebugString()
+		actual := field.DebugString()
 		if expected != actual {
-			t.Error("Board advanced incorrectly in step", step, expected, actual)
+			t.Error("Field advanced incorrectly in step", step, expected, actual)
 		}
-		board.Advance()
+		field.Step()
 	}
 }
 
 func BenchmarkGameOfLife(b *testing.B) {
-	board := MakeBoard(".X.\n..X\nXXX")
+	field := MakeField(".X.\n..X\nXXX")
 	for n := 0; n < b.N; n++ {
-		board.Advance()
+		field.Step()
 	}
 }
