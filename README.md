@@ -1,5 +1,4 @@
 # Conway's Game of Life in Go
-=============
 
 Implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) in an infinite space in Go. Alive cells are stored in a set. To calculate the next iteration, we compute the number of neighbors for each cell that has neighbors.
 
