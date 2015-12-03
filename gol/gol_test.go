@@ -43,9 +43,9 @@ func TestNeighborCounts(t *testing.T) {
 		t.Error("Size is different", expected, actual)
 	}
 
-	for cell, expected_value := range expected {
-		if actual_value, ok := actual[cell]; ok {
-			if expected_value != actual_value {
+	for cell, expectedValue := range expected {
+		if actualValue, ok := actual[cell]; ok {
+			if expectedValue != actualValue {
 				t.Error("Values differ", expected, actual)
 			}
 		} else {

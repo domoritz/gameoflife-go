@@ -6,12 +6,16 @@ import (
 	"strings"
 )
 
+// Cell type
 type Cell struct {
 	X int
 	Y int
 }
 
+// Field is a map from cell to whetehr it is alive or not
 type Field map[Cell]bool
+
+// Counts is a map with the number of alive cells around each cell
 type Counts map[Cell]int
 
 // Writes the neighbors of a given cell into neighbors.
@@ -31,11 +35,11 @@ func (cell *Cell) neighbors(neighbors *[8]Cell) {
 func (field *Field) neighborCounts() Counts {
 	counts := make(Counts)
 	var neighbors [8]Cell
-	for cell, _ := range *field {
+	for cell := range *field {
 		cell.neighbors(&neighbors)
 		for _, neighbor := range neighbors {
 			if _, ok := counts[neighbor]; ok {
-				counts[neighbor] += 1
+				counts[neighbor]++
 			} else {
 				counts[neighbor] = 1
 			}
@@ -50,18 +54,18 @@ func (field *Field) isAlive(cell Cell) bool {
 	return found
 }
 
-// Advances the field by one step
+// Step advances the field by one step
 func (field *Field) Step() {
-	new_field := make(Field)
+	newField := make(Field)
 	for cell, count := range field.neighborCounts() {
 		if count == 3 || field.isAlive(cell) && count == 2 {
-			new_field[cell] = true
+			newField[cell] = true
 		}
 	}
-	*field = new_field
+	*field = newField
 }
 
-// Creates a field from a string description.
+// MakeField creates a field from a string description.
 func MakeField(description string) Field {
 	field := make(Field)
 	for y, line := range strings.Split(description, "\n") {
@@ -74,8 +78,8 @@ func MakeField(description string) Field {
 	return field
 }
 
-// Returns a string representation of the infinite with the provided padding
-// around cells that are alive field or "empty" if the field is empty.
+// DebugString returns a string representation of the infinite with the provided
+// padding around cells that are alive field or "empty" if the field is empty.
 func (field *Field) DebugString(padding int) string {
 	if len(*field) == 0 {
 		return "empty"
@@ -86,7 +90,7 @@ func (field *Field) DebugString(padding int) string {
 	maxx := math.MinInt32
 	miny := math.MaxInt32
 	maxy := math.MinInt32
-	for cell, _ := range *field {
+	for cell := range *field {
 		if cell.X < minx {
 			minx = cell.X
 		}

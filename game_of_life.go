@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/domoritz/gameoflife-go/gol"
 	"time"
+
+	"github.com/domoritz/gameoflife-go/gol"
 )
 
 func main() {
