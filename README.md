@@ -5,7 +5,7 @@ Implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's
 
 ## Purpose
 
-I implemented this game to try Go and compare it with Python. My goal was to write as idiomatic as possible although I had no experience with Go whatsoever and I was on a place without Internet while writing this.
+I implemented this game to try Go and compare it with Python. My goal was to write as idiomatic as possible although I had no experience with Go whatsoever and I was on a plane without Internet while writing this.
 
 Check out [the example](https://github.com/domoritz/gameoflife-go/blob/master/golapp/app.go).
 
