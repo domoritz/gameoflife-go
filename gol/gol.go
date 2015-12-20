@@ -19,7 +19,7 @@ type Field map[Cell]bool
 type Counts map[Cell]int
 
 // Writes the neighbors of a given cell into neighbors.
-func (cell *Cell) neighbors(neighbors *[8]Cell) {
+func (cell Cell) neighbors(neighbors *[8]Cell) {
 	i := 0
 	for x := cell.X - 1; x < cell.X+2; x++ {
 		for y := cell.Y - 1; y < cell.Y+2; y++ {
@@ -32,10 +32,10 @@ func (cell *Cell) neighbors(neighbors *[8]Cell) {
 }
 
 // Returns a map with the neighbor counts
-func (field *Field) neighborCounts() Counts {
+func (field Field) neighborCounts() Counts {
 	counts := make(Counts)
 	var neighbors [8]Cell
-	for cell := range *field {
+	for cell := range field {
 		cell.neighbors(&neighbors)
 		for _, neighbor := range neighbors {
 			if _, ok := counts[neighbor]; ok {
@@ -49,20 +49,20 @@ func (field *Field) neighborCounts() Counts {
 }
 
 // Returns true if the cell is alive.
-func (field *Field) isAlive(cell Cell) bool {
-	_, found := (*field)[cell]
+func (field Field) isAlive(cell Cell) bool {
+	_, found := field[cell]
 	return found
 }
 
-// Step advances the field by one step
-func (field *Field) Step() {
+// Step returns a new field that is advanced by one step
+func (field Field) Step() Field {
 	newField := make(Field)
 	for cell, count := range field.neighborCounts() {
 		if count == 3 || field.isAlive(cell) && count == 2 {
 			newField[cell] = true
 		}
 	}
-	*field = newField
+	return newField
 }
 
 // MakeField creates a field from a string description.
@@ -78,19 +78,22 @@ func MakeField(description string) Field {
 	return field
 }
 
-// DebugString returns a string representation of the infinite with the provided
+func (field Field) String() string {
+	return field.debugString(2)
+}
+
+// debugString returns a string representation of the infinite with the provided
 // padding around cells that are alive field or "empty" if the field is empty.
-func (field *Field) DebugString(padding int) string {
-	if len(*field) == 0 {
+func (field Field) debugString(padding int) string {
+	if len(field) == 0 {
 		return "empty"
 	}
 
-	var buffer bytes.Buffer
 	minx := math.MaxInt32
 	maxx := math.MinInt32
 	miny := math.MaxInt32
 	maxy := math.MinInt32
-	for cell := range *field {
+	for cell := range field {
 		if cell.X < minx {
 			minx = cell.X
 		}
@@ -105,9 +108,11 @@ func (field *Field) DebugString(padding int) string {
 		}
 	}
 
+	var buffer bytes.Buffer
+
 	for y := miny - padding; y < maxy+1+padding; y++ {
 		for x := minx - padding; x < maxx+1+padding; x++ {
-			if _, ok := (*field)[Cell{x, y}]; ok {
+			if _, ok := field[Cell{x, y}]; ok {
 				buffer.WriteString("X")
 			} else {
 				buffer.WriteString(".")
