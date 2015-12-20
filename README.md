@@ -9,6 +9,15 @@ I implemented this game to try Go and compare it with Python. My goal was to wri
 
 Check out [the example](https://github.com/domoritz/gameoflife-go/blob/master/golapp/app.go).
 
+### What I learned/liked/disliked about golang
+
+* The translation form python was pretty straight forward. Nothing surprising.
+* Not having list comprehensions or functional map makes finding the min and max a bit clunky but obvious.
+* It's great to be able to extend a built in type.
+* Why is there no proper set collection? `map[Cell]bool` is just awful.
+* `go fmt` is just awesome. I don't think about formatting any more.
+* Writing tests is super easy although I wish there was a simpler way to check for equality and automatically compute a diff.
+
 ## Help
 
 ### Library
