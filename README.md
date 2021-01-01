@@ -1,4 +1,4 @@
-# Conway's Game of Life in Go [![Build Status](https://travis-ci.org/domoritz/gameoflife-go.svg)](https://travis-ci.org/domoritz/gameoflife-go)
+# Conway's Game of Life in Go ![Go](https://github.com/domoritz/gameoflife-go/workflows/Go/badge.svg)
 
 Implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) in an infinite space in Go. Alive cells are stored in a set. To calculate the next iteration, we compute the number of neighbors for each cell that has neighbors.
 
